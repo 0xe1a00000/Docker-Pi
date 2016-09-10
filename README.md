@@ -35,9 +35,9 @@ Verify Raspbian Wheezy:
 
 ```sh
 $ docker run -p 19484:19484 -it resin/rpi-raspbian:wheezy /bin/bash # This also creates a persistent container ID.
-# uname -a
+$ uname -a
 Linux 5f62767eaeb9 4.4.15-moby #1 SMP Thu Jul 28 22:03:07 UTC 2016 armv7l GNU/Linux
-# exit
+$ exit
 ```
 
 **Note:**
