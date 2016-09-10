@@ -14,7 +14,7 @@ Determine version of docker engine.
 
 ```sh
 $ docker --version
-Docker version 1.12.0, build 8eab29e # Stable version
+Docker version 1.12.0, build 8eab29e # Stable version.
 ```
 
 Pull Raspberry Pi base image (Jessie).
@@ -37,5 +37,11 @@ Install **Homebrew** (if not yet done).
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
+Install the GNU ARM Embeddded Toolchain.
 
+```sh
+$ brew tap PX4/homebrew-px4
+$ brew search gcc-arm-none # Seach for available toolchains.
+$ brew install gcc-arm-none-eabi-54 # Pick your preferred toolchain.
+```
 
