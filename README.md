@@ -17,7 +17,7 @@ $ docker --version
 Docker version 1.12.0, build 8eab29e # Stable version.
 ```
 
-Pull Raspberry Pi base image (Wheezy).
+Pull Raspberry Pi Wheezy image (Jessie will also work).
 
 ```sh
 $ docker pull resin/rpi-raspbian:wheezy
