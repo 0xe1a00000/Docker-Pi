@@ -42,7 +42,7 @@ $ exit
 
 **Note:**
 
-We need to use port forwarding (-p 19484:19484) in order to connect from a OS X host machine to a docker container thats because [Docker for Mac doesn't (cannot) provide a docker0 interface](https://github.com/docker/docker/issues/22753).
+We need to use port forwarding (-p 19484:19484) in order to connect from a OS X host machine to a docker container thats because [Docker for Mac does not provide a docker0 interface](https://github.com/docker/docker/issues/22753).
 
 ### Cross Compile Tools
 
@@ -141,7 +141,7 @@ Therefore we need to use QEMUs GDB-stub.
 Run executable using QEMUs GDB-stub.
 
 ```sh
-$ docker start b51bd10d3fe6  # If not already started.
+$ docker start b51bd10d3fe6 # If not already started.
 $ docker attach b51bd10d3fe6 # Attach to container (interactive-mode).
 $ qemu-arm-static -g 19484 /root/hello_docker_arm
 ```
@@ -150,8 +150,8 @@ Run cross debugger on host machine.
 
 ```sh
 $ arm-none-eabi-gdb -q
-gdb$ file hello_docker_arm          # Load debug symbols.
-gdb$ target remote localhost:19484  # Establish connection with QEMUs GDB-stub.
+gdb$ file hello_docker_arm # Load debug symbols.
+gdb$ target remote localhost:19484 # Establish connection with QEMUs GDB-stub.
 ```
 
 The process is the same for the C example.
