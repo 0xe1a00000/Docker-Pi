@@ -1,4 +1,4 @@
-# OSX-RPI-ARM
+# Docker-Pi
 Cross Compiling for an **emulated** Raspberry Pi using Docker on OS X.
 
 ### Docker
