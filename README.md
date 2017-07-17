@@ -5,27 +5,27 @@ Cross Compiling for an **emulated** Raspberry Pi using Docker on OS X.
 
 Download and install [Docker for Mac](https://www.docker.com/products/docker#/mac).
 
-```sh
+```
 $ shasum -a 256 Docker.dmg
 c6ec6c637efa347427e86168c8d963deb5770b1d67a99f64096c1554b635bd8b
 ```
 
 Determine version of docker engine.
 
-```sh
+```
 $ docker --version
 Docker version 1.12.0, build 8eab29e # Stable version.
 ```
 
 Pull Raspberry Pi Wheezy image (Jessie will also work).
 
-```sh
+```
 $ docker pull resin/rpi-raspbian:wheezy
 ```
 
 List Docker images:
 
-```sh
+```
 $ docker images
 REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
 resin/rpi-raspbian   wheezy              991a10be15c3        2 days ago          84.5 MB
@@ -33,7 +33,7 @@ resin/rpi-raspbian   wheezy              991a10be15c3        2 days ago         
 
 Verify Raspbian Wheezy:
 
-```sh
+```
 $ docker run -p 19484:19484 -it resin/rpi-raspbian:wheezy /bin/bash # This also creates a persistent container ID.
 $ uname -a
 Linux 5f62767eaeb9 4.4.15-moby #1 SMP Thu Jul 28 22:03:07 UTC 2016 armv7l GNU/Linux
@@ -48,13 +48,13 @@ We need to use port forwarding (-p 19484:19484) in order to connect from a OS X 
 
 Install **Homebrew** (if not yet done).
 
-```sh
+```
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
 Install the GNU ARM Embedded Toolchain.
 
-```sh
+```
 $ brew tap PX4/homebrew-px4
 $ brew search gcc-arm-none # Seach for available toolchains.
 $ brew install gcc-arm-none-eabi-54 # Pick your preferred toolchain.
@@ -68,7 +68,7 @@ Download [Hello Docker ARM](https://raw.githubusercontent.com/b2bSec/OSX-RPI-ARM
 
 Assemble and link.
 
-```sh
+```
 $ arm-none-eabi-as -o hello_docker_arm.o hello_docker_arm.s
 $ arm-none-eabi-ld -o hello_docker_arm hello_docker_arm.o
 $ file hello_docker_arm
@@ -77,7 +77,7 @@ hello_docker_arm: ELF 32-bit LSB executable, ARM, version 1 (SYSV), statically l
 
 Copy executable into docker container.
 
-```sh
+```
 $ docker ps -aq # Get container ID.
 b51bd10d3fe6
 $ docker cp hello_docker_arm b51bd10d3fe6:/root
@@ -85,7 +85,7 @@ $ docker cp hello_docker_arm b51bd10d3fe6:/root
 
 Run executable:
 
-```sh
+```
 $ docker start b51bd10d3fe6
 $ docker exec b51bd10d3fe6 /root/hello_docker_arm
 ___ARM: Hello World from Docker___
@@ -97,19 +97,19 @@ Download [Hello Docker C](https://raw.githubusercontent.com/b2bSec/OSX-RPI-ARM/m
 
 Compile, assemble, and Link.
 
-```sh
+```
 $ arm-none-eabi-gcc --specs=rdimon.specs -lgcc -lc -lm -lrdimon -o hello_docker_c hello_docker_c.c
 ```
 
 Copy executable into docker container.
 
-```sh
+```
 $ docker cp hello_docker_c b51bd10d3fe6:/root
 ```
 
 Run executable:
 
-```sh
+```
 $ docker start b51bd10d3fe6 # If not already started.
 $ docker exec b51bd10d3fe6 /root/hello_docker_c
 ___C: Hello World from Docker___
@@ -119,7 +119,7 @@ ___C: Hello World from Docker___
 
 Build executables with debug symbols enabled.
 
-```sh
+```
 $ arm-none-eabi-as -g -o hello_docker_arm.o hello_docker_arm.s
 $ arm-none-eabi-ld -o hello_docker_arm hello_docker_arm.o
 $ arm-none-eabi-gcc -ggdb -c hello_docker_c.c
@@ -128,7 +128,7 @@ $ arm-none-eabi-gcc --specs=rdimon.specs -lgcc -lc -lm -lrdimon -o hello_docker_
 
 Copy executables into docker container.
 
-```sh
+```
 $ docker cp hello_docker_arm b51bd10d3fe6:/root
 $ docker cp hello_docker_c b51bd10d3fe6:/root
 ```
@@ -140,7 +140,7 @@ Therefore we need to use QEMUs GDB-stub.
 
 Run executable using QEMUs GDB-stub.
 
-```sh
+```
 $ docker start b51bd10d3fe6 # If not already started.
 $ docker attach b51bd10d3fe6 # Attach to container (interactive-mode).
 $ qemu-arm-static -g 19484 /root/hello_docker_arm
@@ -148,7 +148,7 @@ $ qemu-arm-static -g 19484 /root/hello_docker_arm
 
 Run cross debugger on host machine.
 
-```sh
+```
 $ arm-none-eabi-gdb -q
 gdb$ file hello_docker_arm # Load debug symbols.
 gdb$ target remote localhost:19484 # Establish connection with QEMUs GDB-stub.
